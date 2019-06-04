@@ -18,9 +18,9 @@ print("Python is " + s) # String concatinating can be done like this
 x = 5
 #print(x + s) # Python does not want to add numbers and texts
 
-print
+print()
 print("file handling")
-print
+print()
 
 #Append to file
 filename = "fileTest.txt"
@@ -52,16 +52,22 @@ fileTest.close()
 
 readFile(filename)
 
+print()
+print("Database and table")
+print()
+
 hostName = "localhost"
 userName="root"
 pwd = "root"
 pyDb="pyTestDb"
 
 mydb = mysql.connector.connect(host=hostName, user=userName, passwd=pwd, database=pyDb)
-print(mydb)
+
+#mycursor = mydb.cursor()
 
 
-mycursor = mydb.cursor()
+mycursor = mydb.cursor(buffered=True)
+
 #mycursor.execute("CREATE DATABASE pyTestDb") # Already had that db
 #mycursor.execute("SHOW DATABASES")
 
@@ -132,4 +138,26 @@ results = mycursor.fetchall()
 
 for result in results:
     print(result)
+
+mycursor.execute("SELECT * FROM customers")
+myresult = mycursor.fetchone()
+
+print() # Printing empty line
+print(myresult)
+print()
+
+# Preventing SQL injections
+sql = "SELECT * FROM customers WHERE address = %s"
+adr = ("Yellow Garden 2", )
+
+mycursor.execute(sql, adr)
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+    print(x)
+
+print()
+print()
+
 
